@@ -172,25 +172,24 @@ Digunakan untuk:
 
 ---
 
-## 📂 Struktur Project
+### 📁 Struktur Project
 
+```
 Excel-Duplicate-Manager/
-│
 ├── src/
 │   ├── modDuplicateManager.bas
 │   ├── frmDuplicateManager.frm
 │   ├── frmDuplicateManager.frx
-│   ├── ThisWorkbook.cls
+│   └── ThisWorkbook.cls
 │
 ├── dist/
 │   ├── DuplicateManager.xlam
-│   ├── DuplicateManager_v1.1.0.zip
+│   └── DuplicateManager_v1.1.0.zip
 │
-├── CHANGELOG.md
 ├── README.md
 ├── LICENSE
-
----
+└── CHANGELOG.md
+```
 
 🆕 Changelog
 
