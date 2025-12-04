@@ -112,6 +112,15 @@ Untuk mengembalikan kondisi sebelum penghapusan.
 
 ---
 
+## 📺 Demo Video
+
+<video width="600" controls>
+  <source src="https://raw.githubusercontent.com/ilhamrzr/Excel-Duplicate-Manager/main/demo/Duplicate%20Manager.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+---
+
 ## 📂 Struktur Project
 
 Excel-Duplicate-Manager/  
