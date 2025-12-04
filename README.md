@@ -99,7 +99,7 @@ Shortcut dapat digunakan di semua workbook:
 
 ### **1. Buka Duplicate Manager**
 
-**Shortcut:** CTRL + SHIFT + D
+ **Shortcut:** CTRL + SHIFT + D
 
 ### **2. Tentukan Header Row**
 
@@ -114,33 +114,61 @@ ComboBox kolom akan menyesuaikan berdasarkan header row ini.
 
 ### **3. Pilih Header Kolom**
 
-Pilih header yang ingin dipindai duplikatnya.
+Pilih kolom mana yang ingin dipindai duplikatnya dari daftar ComboBox.  
+Kolom diambil dari **header row** yang Anda tentukan.
 
-### 3. Pilih Starting Row
+### **4. Tentukan Starting Row**
 
-Masukkan baris awal data (default: 2).
+Masukkan baris mulai data:
 
-### 4. Klik **Scan Duplicates**
+- Default mengikuti (header row + 1)
 
-Baris duplikat akan di-highlight warna merah.
+- Bisa disesuaikan sesuai kebutuhan
 
-### 5. Klik **Delete + Backup**
+Contoh:  
+Jika header di row 5 → Starting row ideal = **6**
 
-- Semua duplikat dihapus
-- Backup sheet dibuat otomatis
+### **5. Klik *Scan Duplicates***
 
-### 6. Klik **Restore Last State**
+Add-In akan:
 
-Untuk mengembalikan kondisi sebelum penghapusan.
+- Memindai data mulai dari *Starting Row*
 
----
+- Menandai baris duplikat dengan highlight merah
 
-## 📺 Demo Video
+- Menampilkan ringkasan hasil scan
 
-<video width="600" controls>
-  <source src="https://raw.githubusercontent.com/ilhamrzr/Excel-Duplicate-Manager/main/demo/Duplicate%20Manager.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+### **6. Klik *Delete + Backup***
+
+Add-In akan:
+
+- Menghapus semua baris duplikat
+
+- Membuat backup sheet otomatis (`BK_YYMMDD_HHMMSS`)
+
+- Menyimpan cadangan ke hidden sheet untuk keperluan restore
+
+### **7. Gunakan Tombol *Reset***
+
+Digunakan untuk:
+
+- Menghapus highlight (warna merah)
+
+- Membersihkan summary
+
+- Menonaktifkan tombol delete
+
+- Memulai scan ulang tanpa menutup form
+
+### **8. Restore Last State**
+
+**Shortcut:** CTRL + SHIFT + R
+
+Digunakan untuk:
+
+- Mengembalikan sheet ke kondisi sebelum penghapusan
+
+- Menggunakan backup hidden sheet yang dibuat sebelumnya
 
 ---
 
@@ -149,14 +177,14 @@ Untuk mengembalikan kondisi sebelum penghapusan.
 Excel-Duplicate-Manager/
 │
 ├── src/
-│ ├── modDuplicateManager.bas
-│ ├── frmDuplicateManager.frm
-│ ├── frmDuplicateManager.frx
-│ ├── ThisWorkbook.cls
+│   ├── modDuplicateManager.bas
+│   ├── frmDuplicateManager.frm
+│   ├── frmDuplicateManager.frx
+│   ├── ThisWorkbook.cls
 │
 ├── dist/
-│ ├── DuplicateManager.xlam
-│ ├── DuplicateManager_v1.1.0.zip
+│   ├── DuplicateManager.xlam
+│   ├── DuplicateManager_v1.1.0.zip
 │
 ├── CHANGELOG.md
 ├── README.md
@@ -177,10 +205,10 @@ Semua catatan perubahan dapat dilihat di sini:
 Kontribusi sangat diterima!  
 Anda dapat membantu dengan:
 
-- Melaporkan bug
-- Mengajukan fitur baru
-- Mengoptimalkan performa
-- Menambahkan dokumentasi
+- Melaporkan bug  
+- Mengajukan fitur baru  
+- Mengoptimalkan performa  
+- Menambahkan dokumentasi  
 
 Submit melalui **Issues** atau **Pull Request**.
 
