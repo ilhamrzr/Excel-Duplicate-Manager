@@ -22,6 +22,7 @@ Private rowStart As Long
 Private lastRow As Long
 Private dupCount As Long
 Private scanned As Boolean
+Private headerRow As Long
 
 ' NEW: remember the scanned workbook and sheet
 Private scannedBookName As String
@@ -39,23 +40,27 @@ Private Sub UserForm_Initialize()
     cmdDelete.Enabled = False
     lblSummary.Caption = ""
 
-    ' Load header from active sheet
+    ' Load header from active sheet using headerRow textbox
     Dim ws As Worksheet
     Dim lastCol As Long, c As Long
-    
+
     Set ws = ActiveSheet
-    lastCol = ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
-    
+
+    ' Get headerRow from textbox
+    headerRow = Val(txtHeaderRow.Text)
+    If headerRow < 1 Then headerRow = 1
+
+    lastCol = ws.Cells(headerRow, ws.Columns.Count).End(xlToLeft).Column
+
     cboHeader.Clear
     For c = 1 To lastCol
-        If Trim(ws.Cells(1, c).Value) <> "" Then
-            cboHeader.AddItem ws.Cells(1, c).Value
+        If Trim(ws.Cells(headerRow, c).Value) <> "" Then
+            cboHeader.AddItem ws.Cells(headerRow, c).Value
         End If
     Next c
-    
-    If cboHeader.ListCount > 0 Then cboHeader.ListIndex = 0
-End Sub
 
+    If cboHeader.ListCount > 0 Then cboHeader.ListIndex = 0
+    End Sub
 
 ' ==========================================================
 '  APPLY THEME (DARK / LIGHT MODE)
@@ -70,16 +75,20 @@ Public Sub ApplyTheme()
         StyleControlDark lblHeader
         StyleControlDark lblRow
         StyleControlDark lblSummary
+        StyleControlDark lblHeaderRow
 
         StyleButtonDark cmdScan
         StyleButtonDark cmdDelete
-        StyleButtonDark cmdClose
+        StyleButtonDark cmdReset
 
         txtRowStart.BackColor = RGB(40, 40, 40)
         txtRowStart.ForeColor = vbWhite
 
         cboHeader.BackColor = RGB(40, 40, 40)
         cboHeader.ForeColor = vbWhite
+        
+        txtHeaderRow.BackColor = RGB(40, 40, 40)
+        txtHeaderRow.ForeColor = vbWhite
 
     Else
         ' LIGHT MODE
@@ -89,16 +98,20 @@ Public Sub ApplyTheme()
         StyleControlLight lblHeader
         StyleControlLight lblRow
         StyleControlLight lblSummary
+        StyleControlLight lblHeaderRow
 
         StyleButtonLight cmdScan
         StyleButtonLight cmdDelete
-        StyleButtonLight cmdClose
+        StyleButtonLight cmdReset
 
         txtRowStart.BackColor = vbWhite
         txtRowStart.ForeColor = vbBlack
 
         cboHeader.BackColor = vbWhite
         cboHeader.ForeColor = vbBlack
+        
+        txtHeaderRow.BackColor = vbWhite
+        txtHeaderRow.ForeColor = vbBlack
     End If
 
 End Sub
@@ -167,8 +180,8 @@ Private Sub cmdScan_Click()
     
     ' Find column position
     colStart = 0
-    For c = 1 To ws.Cells(1, ws.Columns.Count).End(xlToLeft).Column
-        If CStr(ws.Cells(1, c).Value) = headerName Then
+    For c = 1 To ws.Cells(headerRow, ws.Columns.Count).End(xlToLeft).Column
+        If CStr(ws.Cells(headerRow, c).Value) = headerName Then
             colStart = c
             Exit For
         End If
@@ -182,7 +195,13 @@ Private Sub cmdScan_Click()
     colEnd = colStart
     
     rowStart = Val(txtRowStart.Text)
-    If rowStart < 1 Then rowStart = 2
+    If rowStart < 1 Then rowStart = headerRow + 1
+
+    ' make sure it is always below the headerRow
+    If rowStart <= headerRow Then
+        rowStart = headerRow + 1
+        txtRowStart.Text = rowStart
+    End If
     
     lastRow = ws.Cells(ws.Rows.Count, colStart).End(xlUp).Row
     If lastRow < rowStart Then
@@ -335,6 +354,54 @@ Private Sub cmdDelete_Click()
 End Sub
 
 
-Private Sub cmdClose_Click()
-    Unload Me
+Private Sub cmdReset_Click()
+    Call ResetSheet
+End Sub
+Private Sub ResetSheet()
+
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+
+    ' Remove all interior highlights
+    ws.Cells.Interior.ColorIndex = xlNone
+
+    ' Reset font color
+    ws.Cells.Font.ColorIndex = xlAutomatic
+
+    ' Reset summary info
+    lblSummary.Caption = ""
+
+    ' Turn off the delete button
+    cmdDelete.Enabled = False
+
+    ' Reset state
+    dupCount = 0
+    scanned = False
+
+    Beep
+    MsgBox "Highlight has been reset.", vbInformation, "Reset Complete"
+
+End Sub
+
+Private Sub txtHeaderRow_Change()
+    On Error Resume Next
+    ' Don't call the full Show/Initialize, just reload the header
+    Dim ws As Worksheet
+    Dim lastCol As Long, c As Long
+
+    Set ws = ActiveSheet
+
+    headerRow = Val(txtHeaderRow.Text)
+    If headerRow < 1 Then headerRow = 1
+
+    lastCol = ws.Cells(headerRow, ws.Columns.Count).End(xlToLeft).Column
+
+    cboHeader.Clear
+    For c = 1 To lastCol
+        If Trim(ws.Cells(headerRow, c).Value) <> "" Then
+            cboHeader.AddItem ws.Cells(headerRow, c).Value
+        End If
+    Next c
+
+    If cboHeader.ListCount > 0 Then cboHeader.ListIndex = 0
 End Sub

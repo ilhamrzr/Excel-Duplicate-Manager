@@ -20,27 +20,41 @@ Add-In ini dibuat menggunakan **VBA** dan dapat dipakai pada semua versi Excel f
 
 ## ✨ Fitur Utama
 
-### 🔍 Scan Duplicates
+### 🔹 1. Pemindaian Duplikasi Berdasarkan Kolom
 
-- Memindai kolom tertentu berdasarkan header
-- Highlight otomatis pada baris yang terduplikasi
-- Real-time summary informasi duplikat
+- Pilih kolom target melalui ComboBox.
+- Baris duplikat otomatis diberi highlight merah.
+- Ringkasan hasil ditampilkan setelah pemindaian.
 
-### 🗑 Delete + Backup
+### 🔹 2. Dukungan **Header Row** Fleksibel (Baru pada v1.1.0)
 
-- Menghapus duplikat secara otomatis
-- Membuat sheet backup (`BK_yyyymmdd_hhmmss`)
-- Backup tersembunyi untuk opsi *restore last state*
+- Header tidak lagi terbatas pada baris pertama.
+- Anda dapat menentukan header berada di baris mana saja (misal: row 3, row 5, row 7, dll).
+- ComboBox kolom otomatis mengikuti header yang dipilih.
 
-### ♻ Restore Last State
+### 🔹 3. Penghapusan Duplikasi + Backup Otomatis
 
-- Mengembalikan data ke kondisi sebelum penghapusan
-- Menggunakan hidden sheet `__DM_BACKUP`
+- Sebelum menghapus duplikasi, Add-In membuat sheet backup dengan nama: BK_YYMMDD_HHMMSS
+- Backup ini berisi seluruh isi sheet sebelum duplikasi dihapus.
+- Backup hidden digunakan sebagai sumber data untuk fitur restore.
 
-### 🌓 Dark / Light Mode
+### 🔹 4. Fitur Restore Data
 
-- Tampilan UserForm bisa diubah dengan shortcut
-- Warna tombol, background, dan teks menyesuaikan tema
+- Mengembalikan sheet ke kondisi sebelum penghapusan duplikasi.
+- Aman, cepat, dan tidak merusak sheet lainnya.
+
+### 🔹 5. Tema Dark/Light Mode
+
+- Add-In menyediakan dua mode tampilan.
+- Mode dapat ditukar menggunakan shortcut.
+
+### 🔹 6. Tombol Reset (Baru pada v1.1.0)
+
+- Menghapus semua highlight duplikasi.
+- Mereset status scan dan summary.
+- Tidak menutup jendela Duplicate Manager (berbeda dari tombol X di pojok kanan atas).
+
+---
 
 ### ⌨ Global Keyboard Shortcuts
 
@@ -64,7 +78,7 @@ Shortcut dapat digunakan di semua workbook:
 
 1. Download file:  
    **`DuplicateManager.xlam`**  
-   dari folder `/build` atau **GitHub Releases**.
+   dari folder `/dist` atau **GitHub Releases**.
 
 2. Buka Excel → **File → Options → Add-ins**
 
@@ -81,61 +95,108 @@ Shortcut dapat digunakan di semua workbook:
 
 ---
 
-## 📚 Cara Penggunaan
+## # 📚 Cara Penggunaan (Versi Final)
 
-### 1. Buka Duplicate Manager
+### **1. Buka Duplicate Manager**
 
-Gunakan shortcut: `CTRL + SHIFT + D`
+ **Shortcut:** CTRL + SHIFT + D
 
-Atau via menu Add-ins → *Duplicate Manager*.
+### **2. Tentukan Header Row**
 
-### 2. Pilih Header Kolom
+Masukkan nomor baris tempat header kolom berada.  
+Contoh:
 
-Pilih header yang ingin dipindai duplikatnya.
+- Header berada di baris 1 → isi **1**
 
-### 3. Pilih Starting Row
+- Header berada di baris 5 → isi **5**
 
-Masukkan baris awal data (default: 2).
+ComboBox kolom akan menyesuaikan berdasarkan header row ini.
 
-### 4. Klik **Scan Duplicates**
+### **3. Pilih Header Kolom**
 
-Baris duplikat akan di-highlight warna merah.
+Pilih kolom mana yang ingin dipindai duplikatnya dari daftar ComboBox.  
+Kolom diambil dari **header row** yang Anda tentukan.
 
-### 5. Klik **Delete + Backup**
+### **4. Tentukan Starting Row**
 
-- Semua duplikat dihapus
-- Backup sheet dibuat otomatis
+Masukkan baris mulai data:
 
-### 6. Klik **Restore Last State**
+- Default mengikuti (header row + 1)
 
-Untuk mengembalikan kondisi sebelum penghapusan.
+- Bisa disesuaikan sesuai kebutuhan
 
----
+Contoh:  
+Jika header di row 5 → Starting row ideal = **6**
 
-## 📺 Demo Video
+### **5. Klik *Scan Duplicates***
 
-<video width="600" controls>
-  <source src="https://raw.githubusercontent.com/ilhamrzr/Excel-Duplicate-Manager/main/demo/Duplicate%20Manager.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+Add-In akan:
+
+- Memindai data mulai dari *Starting Row*
+
+- Menandai baris duplikat dengan highlight merah
+
+- Menampilkan ringkasan hasil scan
+
+### **6. Klik *Delete + Backup***
+
+Add-In akan:
+
+- Menghapus semua baris duplikat
+
+- Membuat backup sheet otomatis (`BK_YYMMDD_HHMMSS`)
+
+- Menyimpan cadangan ke hidden sheet untuk keperluan restore
+
+### **7. Gunakan Tombol *Reset***
+
+Digunakan untuk:
+
+- Menghapus highlight (warna merah)
+
+- Membersihkan summary
+
+- Menonaktifkan tombol delete
+
+- Memulai scan ulang tanpa menutup form
+
+### **8. Restore Last State**
+
+**Shortcut:** CTRL + SHIFT + R
+
+Digunakan untuk:
+
+- Mengembalikan sheet ke kondisi sebelum penghapusan
+
+- Menggunakan backup hidden sheet yang dibuat sebelumnya
 
 ---
 
 ## 📂 Struktur Project
 
-Excel-Duplicate-Manager/  
-│  
-├── src/  
-│ ├── modDuplicateManager.bas  
-│ ├── frmDuplicateManager.frm  
-│ ├── frmDuplicateManager.frx  
-│ └── ThisWorkbook.cls  
-│  
-├── build/  
-│ └── DuplicateManager.xlam  
-│  
-├── README.md  
-└── LICENSE
+Excel-Duplicate-Manager/
+│
+├── src/
+│   ├── modDuplicateManager.bas
+│   ├── frmDuplicateManager.frm
+│   ├── frmDuplicateManager.frx
+│   ├── ThisWorkbook.cls
+│
+├── dist/
+│   ├── DuplicateManager.xlam
+│   ├── DuplicateManager_v1.1.0.zip
+│
+├── CHANGELOG.md
+├── README.md
+├── LICENSE
+
+---
+
+🆕 Changelog
+
+Semua catatan perubahan dapat dilihat di sini:
+
+👉 **[CHANGELOG.md](./CHANGELOG.md)**
 
 ---
 
