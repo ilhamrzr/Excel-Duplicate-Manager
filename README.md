@@ -95,7 +95,7 @@ Shortcut dapat digunakan di semua workbook:
 
 ---
 
-## # 📚 Cara Penggunaan (Versi Final)
+## 📚 Cara Penggunaan
 
 ### **1. Buka Duplicate Manager**
 
